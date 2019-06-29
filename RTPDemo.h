@@ -4,7 +4,7 @@
 #include "ui_RTPDemo.h"
 #include <QDebug>
 #include <./display/player.h>
-#include <./core/mediadatacallback.h>
+#include <./core/globalcallback.h>
 #include "./core/time.h"
 #include "liveengine.h"
 
@@ -31,6 +31,10 @@ public:
 	 * @param frame
 	 */
 	virtual void on_desktop_frame(FramePacket * frame) override {
+	}
+	
+	virtual void on_soundcard_packet(FramePacket * frame) override{
+		qDebug() << frame->size;
 	}
 	
 	/**
@@ -97,7 +101,7 @@ public slots:
 	void on_cbox_videoShow_stateChanged(int);
 	void on_rbtn_desktop_clicked(bool);
 	void on_rbtn_camera_clicked(bool);
-	void on_cbox_MicShow_stateChanged(int);
+	void on_cbox_microphone_stateChanged(int);
 	void on_cbox_muteAudio_stateChanged(int);
 	void on_cbox_soundCard_stateChanged(int);
 	void on_comBox_FPS_currentIndexChanged(int);

@@ -23,6 +23,7 @@ RTPDemo::RTPDemo(QWidget *parent)
 	
 	engine.register_call_back_object(&cb);
 	engine.get_device_manager()->start_video_capture();
+	engine.get_device_manager()->start_audio_capture();
 //	vFactory.set_fps(30);
 	
 	try {
@@ -130,19 +131,24 @@ void RTPDemo::on_rbtn_camera_clicked(bool flag)
 	}
 }
 
-void RTPDemo::on_cbox_MicShow_stateChanged(int state)
+void RTPDemo::on_cbox_microphone_stateChanged(int state)
 {
-//	ui.videoWidget->setMicEnable(state == Qt::Checked);
+	engine.get_device_manager()->set_microphone_enable(state == Qt::Checked);
 }
 
 void RTPDemo::on_cbox_muteAudio_stateChanged(int state)
 {
-//	ui.videoWidget->setMuteAudio(state == Qt::Checked);
+	if( state == Qt::Checked ){
+		engine.get_device_manager()->start_audio_capture();
+	}
+	else {
+		engine.get_device_manager()->stop_audio_capture();
+	}
 }
 
 void RTPDemo::on_cbox_soundCard_stateChanged(int state)
 {
-	//	ui.videoWidget->setSoundCardEnable(state == Qt::Checked);
+	engine.get_device_manager()->set_sound_card_enable(state == Qt::Checked);
 }
 
 void RTPDemo::on_comBox_FPS_currentIndexChanged(int)

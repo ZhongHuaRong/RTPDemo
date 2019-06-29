@@ -772,12 +772,12 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="cbox_MicShow">
+           <widget class="QCheckBox" name="cbox_microphone">
             <property name="text">
-             <string>播放自己麦克风的声音</string>
+             <string>采集麦克风</string>
             </property>
             <property name="checked">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
            </widget>
           </item>

@@ -22,7 +22,7 @@ public:
 	 * 摄像头画面帧的回调,该帧是没有经过任何处理的
 	 * @param frame
 	 */
-	virtual void on_camera_frame(FramePacket * frame) override {
+    virtual void on_camera_frame(core::FramePacket::SharedPacket frame) override {
 	}
 	
 	/**
@@ -30,11 +30,10 @@ public:
 	 * 桌面画面帧的回调,该帧是没有经过任何处理的
 	 * @param frame
 	 */
-	virtual void on_desktop_frame(FramePacket * frame) override {
+    virtual void on_desktop_frame(core::FramePacket::SharedPacket frame) override {
 	}
 	
-	virtual void on_soundcard_packet(FramePacket * frame) override{
-		qDebug() << frame->size;
+    virtual void on_soundcard_packet(core::FramePacket::SharedPacket frame) override{
 	}
 	
 	/**
@@ -42,7 +41,7 @@ public:
 	 * 桌面以及摄像头画面合成后的图像帧回调
 	 * @param frame
 	 */
-	virtual void on_video_frame_merge(FramePacket * frame) override { 
+    virtual void on_video_frame_merge(core::FramePacket::SharedPacket frame) override {
 //		emit sendVideo(frame);
 	}
 	

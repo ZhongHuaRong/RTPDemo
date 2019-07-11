@@ -164,12 +164,7 @@ void RTPDemo::on_cbox_soundCard_stateChanged(int state)
 
 void RTPDemo::on_cbox_playmic_stateChanged(int state)
 {
-	if( state == Qt::Checked ){
-//		engine.get_device_manager()->start_audio_capture();
-	}
-	else {
-//		engine.get_device_manager()->stop_audio_capture();
-	}
+    engine.set_local_microphone_audio(state == Qt::Checked);
 }
 
 void RTPDemo::on_comBox_FPS_currentIndexChanged(int)

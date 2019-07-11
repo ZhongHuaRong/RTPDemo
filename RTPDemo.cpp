@@ -38,7 +38,7 @@ RTPDemo::RTPDemo(QWidget *parent)
 	try {
 		auto infolist = engine.get_device_manager()->get_microphone_object()->get_all_device_info();
 		for(auto info:infolist){
-			ui.comBox_microphoneInfo->addItem(info.first.c_str());
+			ui.comBox_microphoneInfo->addItem(QString::fromLocal8Bit(info.first.c_str()));
 		}
 		if(ui.comBox_microphoneInfo->count()>0)
 			ui.comBox_microphoneInfo->setCurrentIndex(1);

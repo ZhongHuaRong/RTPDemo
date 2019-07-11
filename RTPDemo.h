@@ -3,7 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_RTPDemo.h"
 #include <QDebug>
-#include <./display/player.h>
+#include <./player/videoplayer.h>
 #include <./core/globalcallback.h>
 #include "./core/time.h"
 #include "liveengine.h"
@@ -11,7 +11,7 @@
 using namespace rtplivelib;
 using namespace rtplivelib::core;
 using namespace rtplivelib::device_manager;
-using namespace rtplivelib::display;
+using namespace rtplivelib::player;
 
 class CallBack : public QObject,public GlobalCallBack{
 	Q_OBJECT
@@ -68,11 +68,6 @@ public:
 		emit local_network(jitter,fraction_lost,delay);
 	}
 	
-	virtual void on_capture_to_send_time(const long & time) override {
-//		emit c2s_time(time);
-		
-		qDebug() << time;
-	}
 signals:
 	void sendVideo(void *);
 	void user_state(QString,bool);
@@ -103,8 +98,10 @@ public slots:
 	void on_cbox_microphone_stateChanged(int);
 	void on_cbox_muteAudio_stateChanged(int);
 	void on_cbox_soundCard_stateChanged(int);
+	void on_cbox_playmic_stateChanged(int);
 	void on_comBox_FPS_currentIndexChanged(int);
 	void on_comBox_cameraInfo_currentIndexChanged(int);
+	void on_comBox_microphoneInfo_currentIndexChanged(int);
 	void on_btn_desktop_setting_clicked(bool);
 	void on_btn_push_open_clicked(bool);
 	void on_btn_push_close_clicked(bool);

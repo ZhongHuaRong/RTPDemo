@@ -34,6 +34,17 @@ RTPDemo::RTPDemo(QWidget *parent)
 	} catch (...) {
 		
 	}
+	
+	try {
+		auto infolist = engine.get_device_manager()->get_microphone_object()->get_all_device_info();
+		for(auto info:infolist){
+			ui.comBox_microphoneInfo->addItem(info.first.c_str());
+		}
+		if(ui.comBox_microphoneInfo->count()>0)
+			ui.comBox_microphoneInfo->setCurrentIndex(1);
+	} catch (...) {
+		
+	}
 	on_btn_username_clicked(true);
 //	infolist = aCapture.get_all_device_info();
 //	for(auto info:infolist){
@@ -151,6 +162,16 @@ void RTPDemo::on_cbox_soundCard_stateChanged(int state)
 	engine.get_device_manager()->set_sound_card_enable(state == Qt::Checked);
 }
 
+void RTPDemo::on_cbox_playmic_stateChanged(int state)
+{
+	if( state == Qt::Checked ){
+//		engine.get_device_manager()->start_audio_capture();
+	}
+	else {
+//		engine.get_device_manager()->stop_audio_capture();
+	}
+}
+
 void RTPDemo::on_comBox_FPS_currentIndexChanged(int)
 {
 	engine.get_device_manager()->set_fps(ui.comBox_FPS->currentText().toInt());
@@ -160,6 +181,12 @@ void RTPDemo::on_comBox_cameraInfo_currentIndexChanged(int)
 {
 	engine.get_device_manager()->get_camera_object()->set_current_device_name(
 				ui.comBox_cameraInfo->currentText().toStdString().c_str());
+}
+
+void RTPDemo::on_comBox_microphoneInfo_currentIndexChanged(int)
+{
+	engine.get_device_manager()->get_microphone_object()->set_current_device_name(
+				ui.comBox_microphoneInfo->currentText().toStdString().c_str());
 }
 
 void RTPDemo::on_btn_desktop_setting_clicked(bool)

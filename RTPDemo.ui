@@ -762,7 +762,24 @@
            </layout>
           </item>
           <item>
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>摄像头列表</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QComboBox" name="comBox_cameraInfo"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_36">
+            <property name="text">
+             <string>麦克风列表</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comBox_microphoneInfo"/>
           </item>
           <item>
            <widget class="QCheckBox" name="cbox_muteAudio">
@@ -778,6 +795,13 @@
             </property>
             <property name="checked">
              <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="cbox_playmic">
+            <property name="text">
+             <string>播放麦克风声音</string>
             </property>
            </widget>
           </item>

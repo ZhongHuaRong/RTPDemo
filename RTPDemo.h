@@ -130,4 +130,6 @@ private:
 	int fps;
 	int push_time{0};
 	int pull_time{0};
+
+    std::map<std::string,std::string> mic_info;
 };

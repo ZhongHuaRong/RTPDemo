@@ -36,12 +36,12 @@ RTPDemo::RTPDemo(QWidget *parent)
 	}
 	
 	try {
-		auto infolist = engine.get_device_manager()->get_microphone_object()->get_all_device_info();
-		for(auto info:infolist){
+        mic_info = engine.get_device_manager()->get_microphone_object()->get_all_device_info();
+        for(auto info:mic_info){
 			ui.comBox_microphoneInfo->addItem(QString::fromLocal8Bit(info.first.c_str()));
 		}
 		if(ui.comBox_microphoneInfo->count()>0)
-			ui.comBox_microphoneInfo->setCurrentIndex(1);
+            ui.comBox_microphoneInfo->setCurrentIndex(0);
 	} catch (...) {
 		
 	}
@@ -181,7 +181,7 @@ void RTPDemo::on_comBox_cameraInfo_currentIndexChanged(int)
 void RTPDemo::on_comBox_microphoneInfo_currentIndexChanged(int)
 {
 	engine.get_device_manager()->get_microphone_object()->set_current_device_name(
-				ui.comBox_microphoneInfo->currentText().toStdString().c_str());
+                mic_info[ui.comBox_microphoneInfo->currentText().toLocal8Bit().data()].c_str());
 }
 
 void RTPDemo::on_btn_desktop_setting_clicked(bool)

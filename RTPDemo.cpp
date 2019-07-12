@@ -38,7 +38,7 @@ RTPDemo::RTPDemo(QWidget *parent)
 	try {
         mic_info = engine.get_device_manager()->get_microphone_object()->get_all_device_info();
         for(auto info:mic_info){
-			ui.comBox_microphoneInfo->addItem(QString::fromLocal8Bit(info.first.c_str()));
+			ui.comBox_microphoneInfo->addItem(QString::fromLocal8Bit(info.second.c_str()));
 		}
 		if(ui.comBox_microphoneInfo->count()>0)
             ui.comBox_microphoneInfo->setCurrentIndex(0);
@@ -174,14 +174,18 @@ void RTPDemo::on_comBox_FPS_currentIndexChanged(int)
 
 void RTPDemo::on_comBox_cameraInfo_currentIndexChanged(int)
 {
-	engine.get_device_manager()->get_camera_object()->set_current_device_name(
-				ui.comBox_cameraInfo->currentText().toStdString().c_str());
+	engine.get_device_manager()->get_camera_object()->set_current_device(
+				ui.comBox_cameraInfo->currentText().toStdString());
 }
 
 void RTPDemo::on_comBox_microphoneInfo_currentIndexChanged(int)
 {
-	engine.get_device_manager()->get_microphone_object()->set_current_device_name(
-                mic_info[ui.comBox_microphoneInfo->currentText().toLocal8Bit().data()].c_str());
+	//重名情况
+	auto index = ui.comBox_microphoneInfo->currentIndex();
+	auto i = mic_info.begin();
+	for( int n = 0; n < index; ++n)
+		++i;
+	engine.get_device_manager()->get_microphone_object()->set_current_device(i->first);
 }
 
 void RTPDemo::on_btn_desktop_setting_clicked(bool)

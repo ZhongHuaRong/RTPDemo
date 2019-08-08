@@ -29,7 +29,7 @@ RTPDemo::RTPDemo(QWidget *parent)
 	try {
 		auto infolist = engine.get_device_manager()->get_camera_object()->get_all_device_info();
 		for(auto info:infolist){
-			ui.comBox_cameraInfo->addItem(info.first.c_str());
+            ui.comBox_cameraInfo->addItem(info.second.c_str());
 		}
 	} catch (...) {
 		

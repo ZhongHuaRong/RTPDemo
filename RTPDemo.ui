@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1055</width>
-    <height>652</height>
+    <width>1700</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -573,8 +573,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>202</width>
-           <height>630</height>
+           <width>333</width>
+           <height>678</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -668,6 +668,24 @@
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_25">
+              <item>
+               <widget class="QLabel" name="label_38">
+                <property name="text">
+                 <string>实时帧数:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="rt_fps">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_14">
               <item>

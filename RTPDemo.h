@@ -35,6 +35,10 @@ public:
 	
     virtual void on_soundcard_packet(core::FramePacket::SharedPacket frame) override{
 	}
+    
+    virtual void on_video_real_time_fps(float fps) override{
+        emit this->fps(fps);
+    }
 	
 	/**
 	 * @brief on_video_frame_merge
@@ -75,6 +79,7 @@ signals:
 	void download_bandwidth(uint64_t,uint64_t);
 	void local_network(uint32_t,float,uint32_t);
 	void c2s_time(const long&);
+    void fps(float);
 public:
 	void *c;
 	void *d;
@@ -110,6 +115,7 @@ public slots:
 	void on_btn_join_room_clicked(bool);
 	void on_btn_exit_room_clicked(bool);
 	
+    void fps_changed(float);
 	void user_changed(QString name,bool state);
 	void upload_bandwidth_changed(uint64_t,uint64_t);
 	void download_bandwidth_changed(uint64_t,uint64_t);

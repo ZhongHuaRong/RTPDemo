@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QBitmap>
 #include <QTime>
+#include "codec/videoencoder.h"
 
 RTPDemo::RTPDemo(QWidget *parent)
 	: QMainWindow(parent)
@@ -14,6 +15,7 @@ RTPDemo::RTPDemo(QWidget *parent)
 	qRegisterMetaType<uint32_t>("uint32_t");
 	qRegisterMetaType<int64_t>("int64_t");
 	qRegisterMetaType<uint64_t>("uint64_t");
+    connect(&cb,&CallBack::fps,this,&RTPDemo::fps_changed);
 	connect(&cb,&CallBack::user_state,this,&RTPDemo::user_changed);
 	connect(&cb,&CallBack::upload_bandwidth,this,&RTPDemo::upload_bandwidth_changed);
 	connect(&cb,&CallBack::download_bandwidth,this,&RTPDemo::download_bandwidth_changed);
@@ -26,6 +28,8 @@ RTPDemo::RTPDemo(QWidget *parent)
 	engine.get_device_manager()->start_audio_capture();
 //	vFactory.set_fps(30);
 	
+    auto encoder = static_cast<codec::VideoEncoder*>(engine.get_video_encoder());
+//    encoder->set_hardware_acceleration(false);
 	try {
 		auto infolist = engine.get_device_manager()->get_camera_object()->get_all_device_info();
 		for(auto info:infolist){
@@ -235,7 +239,12 @@ void RTPDemo::on_btn_exit_room_clicked(bool)
 	ui.btn_join_room->setEnabled(true);
 	ui.btn_exit_room->setEnabled(false);
 	engine.exit_room();
-	ui.user_list_widget->clear();
+    ui.user_list_widget->clear();
+}
+
+void RTPDemo::fps_changed(float f)
+{
+    ui.rt_fps->setText(QString::number(f));
 }
 
 void RTPDemo::user_changed(QString name, bool state)

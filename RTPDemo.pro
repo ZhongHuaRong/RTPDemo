@@ -20,7 +20,7 @@ include(RTPDemo.pri)
 INCLUDEPATH += $$PWD/../devicecapture
 
 win32{
-    LIBS += -L$$PWD/../build-rtplivelib-Desktop_Qt_5_12_2_MinGW_64_bit-Debug/debug/ -lrtplivelib
+    LIBS += -L$$PWD/../build-rtplivelib-Desktop_Qt_5_12_2_MinGW_64_bit-Debug/debug/ -lrtplive
 #    LIBS += -lWS2_32 \
 #	    -lAdvapi32 \
 #	    -lOle32

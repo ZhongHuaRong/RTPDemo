@@ -259,7 +259,7 @@ void RTPDemo::on_btn_exit_room_clicked(bool)
 	ui.user_list_widget->clear();
 }
 
-void RTPDemo::fps_changed(float f)
+void RTPDemo::fps_changed(int f)
 {
 	ui.rt_fps->setText(QString::number(f));
 }

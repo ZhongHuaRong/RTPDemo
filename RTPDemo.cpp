@@ -15,7 +15,7 @@ RTPDemo::RTPDemo(QWidget *parent)
 	qRegisterMetaType<uint32_t>("uint32_t");
 	qRegisterMetaType<int64_t>("int64_t");
 	qRegisterMetaType<uint64_t>("uint64_t");
-    connect(&cb,&CallBack::fps,this,&RTPDemo::fps_changed);
+	connect(&cb,&CallBack::fps,this,&RTPDemo::fps_changed);
 	connect(&cb,&CallBack::user_state,this,&RTPDemo::user_changed);
 	connect(&cb,&CallBack::upload_bandwidth,this,&RTPDemo::upload_bandwidth_changed);
 	connect(&cb,&CallBack::download_bandwidth,this,&RTPDemo::download_bandwidth_changed);
@@ -26,41 +26,48 @@ RTPDemo::RTPDemo(QWidget *parent)
 	engine.register_call_back_object(&cb);
 	engine.get_device_manager()->start_video_capture();
 	engine.get_device_manager()->start_audio_capture();
-//	vFactory.set_fps(30);
+	//	vFactory.set_fps(30);
 	
-    auto encoder = static_cast<codec::VideoEncoder*>(engine.get_video_encoder());
-//    encoder->set_hardware_acceleration(false);
+	auto encoder = static_cast<codec::VideoEncoder*>(engine.get_video_encoder());
+	//    encoder->set_hardware_acceleration(false);
+	encoder->set_hardware_acceleration(true,codec::HardwareDevice::QSV);
 	try {
 		auto infolist = engine.get_device_manager()->get_camera_object()->get_all_device_info();
 		for(auto info:infolist){
-            ui.comBox_cameraInfo->addItem(info.second.c_str());
+			ui.comBox_cameraInfo->addItem(info.second.c_str());
 		}
 	} catch (...) {
 		
 	}
 	
 	try {
-        mic_info = engine.get_device_manager()->get_microphone_object()->get_all_device_info();
-        for(auto info:mic_info){
+		mic_info = engine.get_device_manager()->get_microphone_object()->get_all_device_info();
+		for(auto info:mic_info){
 			ui.comBox_microphoneInfo->addItem(QString::fromLocal8Bit(info.second.c_str()));
 		}
 		if(ui.comBox_microphoneInfo->count()>0)
-            ui.comBox_microphoneInfo->setCurrentIndex(0);
+			ui.comBox_microphoneInfo->setCurrentIndex(0);
 	} catch (...) {
 		
 	}
 	on_btn_username_clicked(true);
-//	infolist = aCapture.get_all_device_info();
-//	for(auto info:infolist){
-//		qDebug() << info.first.c_str();
-//	}
-//	aCapture.start_capture();
-//	on_rbtn_camera_clicked(true);
+	
+	gpuinfo = GPUIdentify::Get_All_GPU_Info();
+	for(auto info:gpuinfo){
+		ui.comBox_gpuInfo->addItem(info.name.c_str());
+	}
+	on_comBox_gpuInfo_currentIndexChanged(0);
+	//	infolist = aCapture.get_all_device_info();
+	//	for(auto info:infolist){
+	//		qDebug() << info.first.c_str();
+	//	}
+	//	aCapture.start_capture();
+	//	on_rbtn_camera_clicked(true);
 }
 
 RTPDemo::~RTPDemo()
 {
-    //WSACleanup();
+	//WSACleanup();
 	engine.get_device_manager()->stop_video_capture();
 	engine.get_device_manager()->stop_audio_capture();
 	engine.register_call_back_object(nullptr);
@@ -68,28 +75,28 @@ RTPDemo::~RTPDemo()
 
 void RTPDemo::rcvVideoData(void *packet)
 {
-//	if(packet == nullptr)
-//		return;
-//	FramePacket * ptr = static_cast<FramePacket*>(packet);
-//	if(ptr->format.width < 0 || ptr->format.height < 0)
-//		return;
-////	ptr = AbstractCapture::YUYV2RGB32(ptr);
-//	//The image is stored using a 32-bit RGB format (0xffRRGGBB).
-//	QImage image(ptr->data[0],ptr->linesize[0] / ptr->format.bits  * 8,ptr->format.height,
-//				 QImage::Format_RGB16,[](void * param){
-////		FramePacket * ptr = static_cast<FramePacket*>(param);
-////		AbstractCapture::ReleasePacket(ptr);
-//	},(void*)ptr);
-//	ui.label_video->setPixmap(QPixmap::fromImage(image.scaled(ui.label_video->width(),ui.label_video->height())));
-//	auto t = QTime::currentTime();
-//	if(time.msecsTo(t) >= 1000){
-//		qDebug() << "video_fps:" << fps;
-//		time = t;
-//		fps = 1;
-//	}
-//	else{
-//		++fps;
-//	}
+	//	if(packet == nullptr)
+	//		return;
+	//	FramePacket * ptr = static_cast<FramePacket*>(packet);
+	//	if(ptr->format.width < 0 || ptr->format.height < 0)
+	//		return;
+	////	ptr = AbstractCapture::YUYV2RGB32(ptr);
+	//	//The image is stored using a 32-bit RGB format (0xffRRGGBB).
+	//	QImage image(ptr->data[0],ptr->linesize[0] / ptr->format.bits  * 8,ptr->format.height,
+	//				 QImage::Format_RGB16,[](void * param){
+	////		FramePacket * ptr = static_cast<FramePacket*>(param);
+	////		AbstractCapture::ReleasePacket(ptr);
+	//	},(void*)ptr);
+	//	ui.label_video->setPixmap(QPixmap::fromImage(image.scaled(ui.label_video->width(),ui.label_video->height())));
+	//	auto t = QTime::currentTime();
+	//	if(time.msecsTo(t) >= 1000){
+	//		qDebug() << "video_fps:" << fps;
+	//		time = t;
+	//		fps = 1;
+	//	}
+	//	else{
+	//		++fps;
+	//	}
 }
 
 void RTPDemo::rcvAudioData(void *packet)
@@ -98,7 +105,7 @@ void RTPDemo::rcvAudioData(void *packet)
 	if(packet == nullptr)
 		return;
 	FramePacket * ptr = static_cast<FramePacket *>(packet);
-//	audioFile.write((char*)ptr->data,ptr->size);
+	//	audioFile.write((char*)ptr->data,ptr->size);
 	delete  ptr;
 }
 
@@ -115,16 +122,16 @@ void RTPDemo::on_cbox_videoShow_stateChanged(int state)
 void RTPDemo::on_rbtn_desktop_clicked(bool flag)
 {
 	if(flag){
-//		cb.set_win_id((void*)ui.widget_desktop->winId(),(void*)ui.widget_camera->winId());
+		//		cb.set_win_id((void*)ui.widget_desktop->winId(),(void*)ui.widget_camera->winId());
 		engine.set_local_display_win_id((void*)ui.widget->winId());
 		auto width = ui.edit_width->text().toInt();
 		auto height = ui.edit_height->text().toInt();
 		width = width == 0?1920:width;
 		height = height == 0?1080:height;
-//		cb.desktopPlayer.show_screen_size_changed(ui.widget_desktop->width(),ui.widget_desktop->height(),
-//												  width,height);
+		//		cb.desktopPlayer.show_screen_size_changed(ui.widget_desktop->width(),ui.widget_desktop->height(),
+		//												  width,height);
 		engine.set_display_screen_size(ui.widget_desktop->width(),ui.widget_desktop->height(),
-										 width,height);
+									   width,height);
 		engine.get_device_manager()->set_desktop_capture_enable(true);
 	}
 	else{
@@ -135,9 +142,9 @@ void RTPDemo::on_rbtn_desktop_clicked(bool flag)
 void RTPDemo::on_rbtn_camera_clicked(bool flag)
 {
 	if(flag){
-//		cb.set_win_id((void*)ui.widget_desktop->winId(),(void*)ui.widget_camera->winId());
+		//		cb.set_win_id((void*)ui.widget_desktop->winId(),(void*)ui.widget_camera->winId());
 		engine.set_local_display_win_id((void*)ui.widget->winId());
-//		cb.cameraPlayer.show_screen_size_changed(ui.widget_camera->width(),ui.widget_camera->height(),640,480);
+		//		cb.cameraPlayer.show_screen_size_changed(ui.widget_camera->width(),ui.widget_camera->height(),640,480);
 		engine.set_display_screen_size(ui.widget_camera->width(),ui.widget_camera->height(),640,480);
 		engine.get_device_manager()->set_camera_capture_enable(true);
 	}
@@ -168,7 +175,7 @@ void RTPDemo::on_cbox_soundCard_stateChanged(int state)
 
 void RTPDemo::on_cbox_playmic_stateChanged(int state)
 {
-    engine.set_local_microphone_audio(state == Qt::Checked);
+	engine.set_local_microphone_audio(state == Qt::Checked);
 }
 
 void RTPDemo::on_comBox_FPS_currentIndexChanged(int)
@@ -190,6 +197,16 @@ void RTPDemo::on_comBox_microphoneInfo_currentIndexChanged(int)
 	for( int n = 0; n < index; ++n)
 		++i;
 	engine.get_device_manager()->get_microphone_object()->set_current_device(i->first);
+}
+
+void RTPDemo::on_comBox_gpuInfo_currentIndexChanged(int index)
+{
+	ui.comBox_screenInfo->clear();
+	if(gpuinfo.size() != 0){
+		for(auto info:gpuinfo[index].screen_list){
+			ui.comBox_screenInfo->addItem(info.c_str());
+		}
+	}
 }
 
 void RTPDemo::on_btn_desktop_setting_clicked(bool)
@@ -239,12 +256,12 @@ void RTPDemo::on_btn_exit_room_clicked(bool)
 	ui.btn_join_room->setEnabled(true);
 	ui.btn_exit_room->setEnabled(false);
 	engine.exit_room();
-    ui.user_list_widget->clear();
+	ui.user_list_widget->clear();
 }
 
 void RTPDemo::fps_changed(float f)
 {
-    ui.rt_fps->setText(QString::number(f));
+	ui.rt_fps->setText(QString::number(f));
 }
 
 void RTPDemo::user_changed(QString name, bool state)
@@ -337,9 +354,9 @@ void RTPDemo::download_bandwidth_changed(uint64_t speed, uint64_t flow)
 
 void RTPDemo::local_network_changed(uint32_t jitter, float fraction_lost, uint32_t delay)
 {
-		ui.rr_fractionLost->setText(QString::number(fraction_lost));
-		ui.rr_jitter->setText(QString::number(jitter));
-		ui.rr_roundtripTime->setText(QString::number(delay));
+	ui.rr_fractionLost->setText(QString::number(fraction_lost));
+	ui.rr_jitter->setText(QString::number(jitter));
+	ui.rr_roundtripTime->setText(QString::number(delay));
 }
 
 void RTPDemo::c2s_time(const long &time)

@@ -573,8 +573,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>333</width>
-           <height>678</height>
+           <width>317</width>
+           <height>719</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -798,6 +798,26 @@
           </item>
           <item>
            <widget class="QComboBox" name="comBox_microphoneInfo"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_37">
+            <property name="text">
+             <string>显卡列表(目前只用于显示显卡信息)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comBox_gpuInfo"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_39">
+            <property name="text">
+             <string>显示器信息(更换显卡将会更新该列表)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comBox_screenInfo"/>
           </item>
           <item>
            <widget class="QCheckBox" name="cbox_muteAudio">

@@ -6,6 +6,7 @@
 #include <./player/videoplayer.h>
 #include <./core/globalcallback.h>
 #include "./core/time.h"
+#include "device_manager/gpudevice.h"
 #include "liveengine.h"
 
 using namespace rtplivelib;
@@ -22,7 +23,7 @@ public:
 	 * 摄像头画面帧的回调,该帧是没有经过任何处理的
 	 * @param frame
 	 */
-    virtual void on_camera_frame(core::FramePacket::SharedPacket frame) override {
+	virtual void on_camera_frame(core::FramePacket::SharedPacket frame) override {
 	}
 	
 	/**
@@ -30,29 +31,29 @@ public:
 	 * 桌面画面帧的回调,该帧是没有经过任何处理的
 	 * @param frame
 	 */
-    virtual void on_desktop_frame(core::FramePacket::SharedPacket frame) override {
+	virtual void on_desktop_frame(core::FramePacket::SharedPacket frame) override {
 	}
 	
-    virtual void on_soundcard_packet(core::FramePacket::SharedPacket frame) override{
+	virtual void on_soundcard_packet(core::FramePacket::SharedPacket frame) override{
 	}
-    
-    virtual void on_video_real_time_fps(float fps) override{
-        emit this->fps(fps);
-    }
+	
+	virtual void on_video_real_time_fps(float fps) override{
+		emit this->fps(fps);
+	}
 	
 	/**
 	 * @brief on_video_frame_merge
 	 * 桌面以及摄像头画面合成后的图像帧回调
 	 * @param frame
 	 */
-    virtual void on_video_frame_merge(core::FramePacket::SharedPacket frame) override {
-//		emit sendVideo(frame);
+	virtual void on_video_frame_merge(core::FramePacket::SharedPacket frame) override {
+		//		emit sendVideo(frame);
 	}
 	
 	virtual void on_new_user_join(const std::string& name) override {
 		emit user_state(QString::fromStdString(name),true);
 	}
-
+	
 	virtual void on_user_exit(const std::string& name,
 							  const void * reason, const uint64_t& reason_len) override {
 		emit user_state(QString::fromStdString(name),false);
@@ -79,7 +80,7 @@ signals:
 	void download_bandwidth(uint64_t,uint64_t);
 	void local_network(uint32_t,float,uint32_t);
 	void c2s_time(const long&);
-    void fps(float);
+	void fps(float);
 public:
 	void *c;
 	void *d;
@@ -88,11 +89,11 @@ public:
 class RTPDemo : public QMainWindow
 {
 	Q_OBJECT
-
+	
 public:
 	RTPDemo(QWidget *parent = Q_NULLPTR);
 	~RTPDemo();
-
+	
 public slots:
 	void rcvVideoData(void *packet);
 	void rcvAudioData(void *packet);
@@ -107,6 +108,7 @@ public slots:
 	void on_comBox_FPS_currentIndexChanged(int);
 	void on_comBox_cameraInfo_currentIndexChanged(int);
 	void on_comBox_microphoneInfo_currentIndexChanged(int);
+	void on_comBox_gpuInfo_currentIndexChanged(int);
 	void on_btn_desktop_setting_clicked(bool);
 	void on_btn_push_open_clicked(bool);
 	void on_btn_push_close_clicked(bool);
@@ -115,7 +117,7 @@ public slots:
 	void on_btn_join_room_clicked(bool);
 	void on_btn_exit_room_clicked(bool);
 	
-    void fps_changed(float);
+	void fps_changed(float);
 	void user_changed(QString name,bool state);
 	void upload_bandwidth_changed(uint64_t,uint64_t);
 	void download_bandwidth_changed(uint64_t,uint64_t);
@@ -126,7 +128,7 @@ public slots:
 	void c2s_time(const long& time);
 private:
 	Ui::RTPDemoClass ui;
-
+	
 	QPixmap pixmap;
 	QImage im;
 	
@@ -136,6 +138,7 @@ private:
 	int fps;
 	int push_time{0};
 	int pull_time{0};
-
-    std::map<std::string,std::string> mic_info;
+	
+	std::map<std::string,std::string>	mic_info;
+	std::vector<GPUInfo>				gpuinfo;
 };

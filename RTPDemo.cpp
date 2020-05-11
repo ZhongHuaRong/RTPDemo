@@ -28,9 +28,7 @@ RTPDemo::RTPDemo(QWidget *parent)
 	engine.get_device_manager()->start_audio_capture();
 	//	vFactory.set_fps(30);
 	
-	auto encoder = static_cast<codec::VideoEncoder*>(engine.get_video_encoder());
-	//    encoder->set_hardware_acceleration(false);
-	encoder->set_hardware_acceleration(true,codec::HardwareDevice::QSV);
+//	engine.set_log_level(LogLevel::WARNING_LEVEL);
 	try {
 		auto infolist = engine.get_device_manager()->get_camera_object()->get_all_device_info();
 		for(auto info:infolist){
@@ -207,6 +205,43 @@ void RTPDemo::on_comBox_gpuInfo_currentIndexChanged(int index)
 			ui.comBox_screenInfo->addItem(info.c_str());
 		}
 	}
+}
+
+void RTPDemo::on_comBox_encoder_currentIndexChanged(int index)
+{
+	auto encoder = static_cast<codec::VideoEncoder*>(engine.get_video_encoder());
+	switch(index){
+	case 0:
+		encoder->set_encoder_type(codec::Encoder::Auto);
+		break;
+	case 1:
+		encoder->set_encoder_type(codec::Encoder::HEVC);
+		break;
+	case 2:
+		encoder->set_encoder_type(codec::Encoder::H264);
+		break;
+	case 3:
+		encoder->set_encoder_type(codec::Encoder::None);
+	}
+}
+
+void RTPDemo::on_comBox_hwa_currentIndexChanged(int index)
+{
+	auto encoder = static_cast<codec::VideoEncoder*>(engine.get_video_encoder());
+	switch(index){
+	case 0:
+		encoder->set_hardware_acceleration(true,codec::HardwareDevice::Auto);
+		break;
+	case 1:
+		encoder->set_hardware_acceleration(true,codec::HardwareDevice::QSV);
+		break;
+	case 2:
+		encoder->set_hardware_acceleration(true,codec::HardwareDevice::NVIDIA);
+		break;
+	default:
+		encoder->set_hardware_acceleration(false);
+	}
+	
 }
 
 void RTPDemo::on_btn_desktop_setting_clicked(bool)

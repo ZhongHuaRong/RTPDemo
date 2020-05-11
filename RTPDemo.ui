@@ -574,7 +574,7 @@
            <x>0</x>
            <y>0</y>
            <width>317</width>
-           <height>719</height>
+           <height>807</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -818,6 +818,68 @@
           </item>
           <item>
            <widget class="QComboBox" name="comBox_screenInfo"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_40">
+            <property name="text">
+             <string>视频编码器</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comBox_encoder">
+            <item>
+             <property name="text">
+              <string>Auto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HEVC</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>H264</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>None</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_41">
+            <property name="text">
+             <string>硬件加速方案</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comBox_hwa">
+            <item>
+             <property name="text">
+              <string>Auto</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>qsv</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>nvidia</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>none</string>
+             </property>
+            </item>
+           </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="cbox_muteAudio">

@@ -109,6 +109,8 @@ public slots:
 	void on_comBox_cameraInfo_currentIndexChanged(int);
 	void on_comBox_microphoneInfo_currentIndexChanged(int);
 	void on_comBox_gpuInfo_currentIndexChanged(int);
+	void on_comBox_encoder_currentIndexChanged(int);
+	void on_comBox_hwa_currentIndexChanged(int);
 	void on_btn_desktop_setting_clicked(bool);
 	void on_btn_push_open_clicked(bool);
 	void on_btn_push_close_clicked(bool);
